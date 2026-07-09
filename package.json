@@ -1,0 +1,69 @@
+{
+  "name": "cursor-usage-bar",
+  "displayName": "Cursor Usage Bar",
+  "description": "在状态栏显示 Cursor First-party / API 用量比例，支持自动刷新",
+  "version": "0.2.0",
+  "publisher": "NookDoze",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NookDoze/cursor-usage-bar"
+  },
+  "bugs": {
+    "url": "https://github.com/NookDoze/cursor-usage-bar/issues"
+  },
+  "homepage": "https://github.com/NookDoze/cursor-usage-bar#readme",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "keywords": [
+    "cursor",
+    "usage",
+    "billing",
+    "first-party",
+    "api",
+    "status bar"
+  ],
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "cursorUsageBar.refresh",
+        "title": "Cursor Usage Bar: 刷新用量"
+      },
+      {
+        "command": "cursorUsageBar.openDashboard",
+        "title": "Cursor Usage Bar: 打开用量面板"
+      }
+    ],
+    "configuration": {
+      "title": "Cursor Usage Bar",
+      "properties": {
+        "cursorUsageBar.refreshSeconds": {
+          "type": "number",
+          "default": 60,
+          "minimum": 15,
+          "description": "自动刷新间隔（秒）"
+        },
+        "cursorUsageBar.stateDbPath": {
+          "type": "string",
+          "default": "",
+          "description": "Cursor state.vscdb 路径（留空则自动检测）"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "npm run compile && npx --yes @vscode/vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.3"
+  }
+}

@@ -1,8 +1,8 @@
 {
   "name": "cursor-usage-bar",
   "displayName": "Cursor Usage Bar",
-  "description": "在状态栏显示 Cursor First-party / API 用量比例，支持自动刷新",
-  "version": "0.2.0",
+  "description": "Show Cursor First-party / API usage percentages in the status bar with auto-refresh",
+  "version": "0.3.0",
   "publisher": "NookDoze",
   "license": "GPL-3.0",
   "repository": {
@@ -23,7 +23,9 @@
     "billing",
     "first-party",
     "api",
-    "status bar"
+    "status bar",
+    "spending",
+    "quota"
   ],
   "activationEvents": ["onStartupFinished"],
   "main": "./out/extension.js",
@@ -31,11 +33,11 @@
     "commands": [
       {
         "command": "cursorUsageBar.refresh",
-        "title": "Cursor Usage Bar: 刷新用量"
+        "title": "Cursor Usage Bar: Refresh Usage"
       },
       {
         "command": "cursorUsageBar.openDashboard",
-        "title": "Cursor Usage Bar: 打开用量面板"
+        "title": "Cursor Usage Bar: Open Usage Dashboard"
       }
     ],
     "configuration": {
@@ -45,12 +47,12 @@
           "type": "number",
           "default": 60,
           "minimum": 15,
-          "description": "自动刷新间隔（秒）"
+          "description": "Auto-refresh interval in seconds (minimum 15)"
         },
         "cursorUsageBar.stateDbPath": {
           "type": "string",
           "default": "",
-          "description": "Cursor state.vscdb 路径（留空则自动检测）"
+          "description": "Custom path to Cursor state.vscdb (leave empty for auto-detection)"
         }
       }
     }

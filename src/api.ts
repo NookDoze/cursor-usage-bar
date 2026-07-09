@@ -37,7 +37,7 @@ async function postJson<T>(url: string, token: string): Promise<T> {
     body: '{}',
   });
   if (!response.ok) {
-    throw new Error(`Cursor API 返回 ${response.status}`);
+    throw new Error(`Cursor API returned ${response.status}`);
   }
   return (await response.json()) as T;
 }
@@ -57,7 +57,7 @@ export async function fetchUsage(token: string): Promise<UsageData> {
   ]);
 
   if (usageRaw.enabled === false || !usageRaw.planUsage) {
-    throw new Error('无有效订阅或用量数据不可用');
+    throw new Error('No active subscription or usage data unavailable');
   }
 
   const plan = usageRaw.planUsage;

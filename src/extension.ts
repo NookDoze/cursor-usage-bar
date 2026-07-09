@@ -36,14 +36,14 @@ function colorForPercent(percent: number): vscode.ThemeColor | undefined {
 function buildTooltip(data: ReturnType<typeof fetchUsage> extends Promise<infer T> ? T : never): vscode.MarkdownString {
   const md = new vscode.MarkdownString();
   md.isTrusted = true;
-  md.appendMarkdown(`**Cursor 用量** (${data.planName})\n\n`);
+  md.appendMarkdown(`**Cursor Usage** (${data.planName})\n\n`);
   md.appendMarkdown(`- First-party models: **${formatPercent(data.firstPartyPercent)}%**\n`);
   md.appendMarkdown(`- API: **${formatPercent(data.apiPercent)}%**\n`);
-  md.appendMarkdown(`- 总计: **${formatPercent(data.totalPercent)}%**\n`);
+  md.appendMarkdown(`- Total: **${formatPercent(data.totalPercent)}%**\n`);
   if (data.billingCycleEnd) {
-    md.appendMarkdown(`\n账单周期结束: ${data.billingCycleEnd.toLocaleDateString()}\n`);
+    md.appendMarkdown(`\nBilling cycle ends: ${data.billingCycleEnd.toLocaleDateString()}\n`);
   }
-  md.appendMarkdown('\n点击刷新 · [打开 Dashboard](https://cursor.com/dashboard/usage)');
+  md.appendMarkdown('\nClick to refresh · [Open Dashboard](https://cursor.com/dashboard/usage)');
   return md;
 }
 
@@ -53,13 +53,13 @@ async function refresh(): Promise<void> {
   }
   refreshing = true;
   statusBar.text = '$(sync~spin) Cursor';
-  statusBar.tooltip = '正在刷新用量...';
+  statusBar.tooltip = 'Refreshing usage...';
 
   try {
     const token = getAccessToken(getStateDbPath());
     if (!token) {
-      statusBar.text = '$(warning) Cursor 未登录';
-      statusBar.tooltip = '未找到 accessToken，请先在 Cursor 中登录';
+      statusBar.text = '$(warning) Cursor not signed in';
+      statusBar.tooltip = 'No accessToken found. Sign in to Cursor first.';
       statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
       return;
     }
@@ -69,9 +69,9 @@ async function refresh(): Promise<void> {
     statusBar.tooltip = buildTooltip(data);
     statusBar.backgroundColor = colorForPercent(Math.max(data.firstPartyPercent, data.apiPercent));
   } catch (error) {
-    const message = error instanceof Error ? error.message : '未知错误';
-    statusBar.text = '$(error) Cursor 用量';
-    statusBar.tooltip = `获取失败: ${message}`;
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    statusBar.text = '$(error) Cursor usage';
+    statusBar.tooltip = `Failed to fetch usage: ${message}`;
     statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
   } finally {
     refreshing = false;

@@ -77,11 +77,6 @@ npm run compile
 npm run package
 ```
 
-## Claim Namespace (publishers) / 认领 Namespace
-
-To remove the unverified publisher warning on Open VSX, use the official template:
-
-https://github.com/EclipseFdn/open-vsx.org/issues/new?template=claim-namespace-ownership.yml
 
 ## License
 

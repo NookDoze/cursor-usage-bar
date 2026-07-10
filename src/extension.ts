@@ -23,6 +23,28 @@ function formatPercent(value: number): string {
   return String(Math.round(value));
 }
 
+function formatDollars(cents: number): string {
+  const dollars = cents / 100;
+  if (dollars < 1) {
+    return `$${dollars.toFixed(2)}`;
+  }
+  if (Number.isInteger(dollars)) {
+    return `$${dollars}`;
+  }
+  return `$${dollars.toFixed(2)}`;
+}
+
+function formatOnDemandSpend(
+  onDemand: NonNullable<Awaited<ReturnType<typeof fetchUsage>>['onDemand']>,
+  compact = false,
+): string {
+  const used = formatDollars(onDemand.usedCents);
+  if (onDemand.limitCents === null) {
+    return compact ? used : `${used}/unlimited`;
+  }
+  return `${used}/${formatDollars(onDemand.limitCents)}`;
+}
+
 function colorForPercent(percent: number): vscode.ThemeColor | undefined {
   if (percent >= 90) {
     return new vscode.ThemeColor('statusBarItem.errorBackground');
@@ -40,6 +62,9 @@ function buildTooltip(data: ReturnType<typeof fetchUsage> extends Promise<infer 
   md.appendMarkdown(`- First-party models: **${formatPercent(data.firstPartyPercent)}%**\n`);
   md.appendMarkdown(`- API: **${formatPercent(data.apiPercent)}%**\n`);
   md.appendMarkdown(`- Total: **${formatPercent(data.totalPercent)}%**\n`);
+  if (data.onDemand) {
+    md.appendMarkdown(`- On-demand: **${formatOnDemandSpend(data.onDemand)}**\n`);
+  }
   if (data.billingCycleEnd) {
     md.appendMarkdown(`\nBilling cycle ends: ${data.billingCycleEnd.toLocaleDateString()}\n`);
   }
@@ -65,7 +90,11 @@ async function refresh(): Promise<void> {
     }
 
     const data = await fetchUsage(token);
-    statusBar.text = `$(pulse) 1P ${formatPercent(data.firstPartyPercent)}% | API ${formatPercent(data.apiPercent)}%`;
+    let text = `$(pulse) 1P ${formatPercent(data.firstPartyPercent)}% | API ${formatPercent(data.apiPercent)}%`;
+    if (data.onDemand) {
+      text += ` | OD ${formatOnDemandSpend(data.onDemand, true)}`;
+    }
+    statusBar.text = text;
     statusBar.tooltip = buildTooltip(data);
     statusBar.backgroundColor = colorForPercent(Math.max(data.firstPartyPercent, data.apiPercent));
   } catch (error) {

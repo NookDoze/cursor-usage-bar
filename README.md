@@ -1,19 +1,21 @@
 # Cursor Usage Bar
 
-Show **First-party models** and **API** usage percentages in the Cursor / VS Code status bar.
+Show **First-party models**, **API**, and **On-demand** usage in the Cursor / VS Code status bar.
 
-在 Cursor / VS Code 状态栏实时显示 **First-party models** 与 **API** 两个用量池的使用比例。
+在 Cursor / VS Code 状态栏实时显示 **First-party models**、**API** 用量比例，以及本账单周期的 **On-demand** 消费（若已开启）。
 
 ## Features / 功能
 
 - Status bar: `1P 6% | API 0%`
-- Hover for details (plan, billing cycle, totals)
+- On-demand spend when enabled in Cursor: `OD $0.05/$10` or `OD $10` (unlimited limit; full detail on hover)
+- Hover for details (plan, billing cycle, totals, on-demand)
 - Click the status bar to refresh manually
 - Configurable auto-refresh interval (default 60 seconds)
 - Warning colors at 75% / 90% usage
 
 - 状态栏显示：`1P 6% | API 0%`
-- 鼠标悬停查看详情（计划、账单周期等）
+- 若 Cursor 已开启 On-demand，自动追加：`OD $0.05/$10`；无上限时状态栏仅显示已用金额（如 `OD $10`），悬停可见 `unlimited`
+- 鼠标悬停查看详情（计划、账单周期、On-demand 等）
 - 点击状态栏手动刷新
 - 可配置自动刷新间隔（默认 60 秒）
 - 用量超过 75% / 90% 时状态栏变色提醒
@@ -34,7 +36,14 @@ If search returns no results (common for new extensions), use the CLI:
 cursor --install-extension NookDoze.cursor-usage-bar
 ```
 
-在 Cursor 扩展市场搜索 `@id:NookDoze.cursor-usage-bar`，或从 Open VSX 安装。若搜不到，可用上面的命令行安装。
+Install from a local `.vsix` (use the real Cursor binary on Linux if `~/.local/bin/cursor` is a shim):
+
+```bash
+npm run package
+/usr/share/cursor/bin/cursor --install-extension cursor-usage-bar-0.3.4.vsix --force
+```
+
+在 Cursor 扩展市场搜索 `@id:NookDoze.cursor-usage-bar`，或从 Open VSX 安装。若搜不到，可用上面的命令行安装。本地 VSIX 安装时，Linux 上请使用 `/usr/share/cursor/bin/cursor`，避免 shim 未正确注册扩展。
 
 ## Configuration / 配置
 
@@ -48,6 +57,10 @@ cursor --install-extension NookDoze.cursor-usage-bar
 | `cursorUsageBar.refreshSeconds` | `60` | 自动刷新间隔（秒），最小 15 |
 | `cursorUsageBar.stateDbPath` | 空 | 自定义 `state.vscdb` 路径 |
 
+On-demand display requires **On-demand Usage** enabled in [Cursor Dashboard → Spending](https://cursor.com/dashboard/usage). No extra extension setting is needed.
+
+On-demand 显示需在 [Cursor Dashboard → Spending](https://cursor.com/dashboard/usage) 中开启 **On-demand Usage**，无需额外扩展配置。
+
 ## Commands / 命令
 
 - `Cursor Usage Bar: Refresh Usage`
@@ -56,11 +69,11 @@ cursor --install-extension NookDoze.cursor-usage-bar
 ## Privacy & Security / 隐私与安全
 
 - Reads `accessToken` from the local Cursor database (`state.vscdb`); **does not store** the token
-- Sends HTTPS requests **only** to `api2.cursor.sh`
+- Sends HTTPS requests to `api2.cursor.sh` (usage percentages) and `cursor.com` (on-demand summary fallback)
 - No third-party servers, no telemetry
 
 - 从本地 Cursor 数据库读取 `accessToken`，**不保存** token
-- 仅向 `api2.cursor.sh` 发起 HTTPS 请求
+- 向 `api2.cursor.sh`（用量百分比）和 `cursor.com`（On-demand 回退接口）发起 HTTPS 请求
 - **无**第三方服务器、无遥测
 
 ## Disclaimer / 免责声明
@@ -76,7 +89,6 @@ npm install
 npm run compile
 npm run package
 ```
-
 
 ## License
 

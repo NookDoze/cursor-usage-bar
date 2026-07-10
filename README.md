@@ -40,7 +40,7 @@ Install from a local `.vsix` (use the real Cursor binary on Linux if `~/.local/b
 
 ```bash
 npm run package
-/usr/share/cursor/bin/cursor --install-extension cursor-usage-bar-0.3.4.vsix --force
+/usr/share/cursor/bin/cursor --install-extension cursor-usage-bar-0.3.5.vsix --force
 ```
 
 在 Cursor 扩展市场搜索 `@id:NookDoze.cursor-usage-bar`，或从 Open VSX 安装。若搜不到，可用上面的命令行安装。本地 VSIX 安装时，Linux 上请使用 `/usr/share/cursor/bin/cursor`，避免 shim 未正确注册扩展。

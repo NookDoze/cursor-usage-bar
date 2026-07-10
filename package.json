@@ -1,8 +1,8 @@
 {
   "name": "cursor-usage-bar",
   "displayName": "Cursor Usage Bar",
-  "description": "Show Cursor First-party / API usage percentages in the status bar with auto-refresh",
-  "version": "0.3.4",
+  "description": "Show Cursor First-party / API usage and on-demand spend in the status bar with auto-refresh",
+  "version": "0.3.5",
   "publisher": "NookDoze",
   "license": "GPL-3.0",
   "repository": {
@@ -25,7 +25,8 @@
     "api",
     "status bar",
     "spending",
-    "quota"
+    "quota",
+    "on-demand"
   ],
   "activationEvents": ["onStartupFinished"],
   "main": "./out/extension.js",

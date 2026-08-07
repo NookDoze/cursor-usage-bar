@@ -59,8 +59,8 @@ function buildTooltip(data: ReturnType<typeof fetchUsage> extends Promise<infer 
   const md = new vscode.MarkdownString();
   md.isTrusted = true;
   md.appendMarkdown(`**Cursor Usage** (${data.planName})\n\n`);
-  md.appendMarkdown(`- First-party models: **${formatPercent(data.firstPartyPercent)}%**\n`);
-  md.appendMarkdown(`- API: **${formatPercent(data.apiPercent)}%**\n`);
+  md.appendMarkdown(`- Cursor Models: **${formatPercent(data.cursorModelsPercent)}%**\n`);
+  md.appendMarkdown(`- Other Models: **${formatPercent(data.otherModelsPercent)}%**\n`);
   md.appendMarkdown(`- Total: **${formatPercent(data.totalPercent)}%**\n`);
   if (data.onDemand) {
     md.appendMarkdown(`- On-demand: **${formatOnDemandSpend(data.onDemand)}**\n`);
@@ -90,13 +90,15 @@ async function refresh(): Promise<void> {
     }
 
     const data = await fetchUsage(token);
-    let text = `$(pulse) 1P ${formatPercent(data.firstPartyPercent)}% | API ${formatPercent(data.apiPercent)}%`;
+    let text = `$(pulse) Cursor ${formatPercent(data.cursorModelsPercent)}% | Other ${formatPercent(data.otherModelsPercent)}%`;
     if (data.onDemand) {
       text += ` | OD ${formatOnDemandSpend(data.onDemand, true)}`;
     }
     statusBar.text = text;
     statusBar.tooltip = buildTooltip(data);
-    statusBar.backgroundColor = colorForPercent(Math.max(data.firstPartyPercent, data.apiPercent));
+    statusBar.backgroundColor = colorForPercent(
+      Math.max(data.cursorModelsPercent, data.otherModelsPercent),
+    );
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     statusBar.text = '$(error) Cursor usage';

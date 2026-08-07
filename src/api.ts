@@ -13,8 +13,8 @@ export interface OnDemandSpend {
 
 export interface UsageData {
   planName: string;
-  firstPartyPercent: number;
-  apiPercent: number;
+  cursorModelsPercent: number;
+  otherModelsPercent: number;
   totalPercent: number;
   billingCycleEnd: Date | null;
   onDemand: OnDemandSpend | null;
@@ -209,8 +209,8 @@ export async function fetchUsage(token: string): Promise<UsageData> {
 
   return {
     planName: planRaw.planInfo?.planName?.trim() || 'Pro',
-    firstPartyPercent: plan.autoPercentUsed ?? 0,
-    apiPercent: plan.apiPercentUsed ?? 0,
+    cursorModelsPercent: plan.autoPercentUsed ?? 0,
+    otherModelsPercent: plan.apiPercentUsed ?? 0,
     totalPercent: plan.totalPercentUsed ?? 0,
     billingCycleEnd: parseDate(usageRaw.billingCycleEnd),
     onDemand,

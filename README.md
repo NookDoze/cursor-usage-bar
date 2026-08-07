@@ -1,19 +1,19 @@
 # Cursor Usage Bar
 
-Show **First-party models**, **API**, and **On-demand** usage in the Cursor / VS Code status bar.
+Show **Cursor Models**, **Other Models**, and **On-demand** usage in the Cursor / VS Code status bar.
 
-在 Cursor / VS Code 状态栏实时显示 **First-party models**、**API** 用量比例，以及本账单周期的 **On-demand** 消费（若已开启）。
+在 Cursor / VS Code 状态栏实时显示 **Cursor Models**、**Other Models** 用量比例，以及本账单周期的 **On-demand** 消费（若已开启）。
 
 ## Features / 功能
 
-- Status bar: `1P 6% | API 0%`
+- Status bar: `Cursor 6% | Other 0%`
 - On-demand spend when enabled in Cursor: `OD $0.05/$10` or `OD $10` (unlimited limit; full detail on hover)
 - Hover for details (plan, billing cycle, totals, on-demand)
 - Click the status bar to refresh manually
 - Configurable auto-refresh interval (default 60 seconds)
 - Warning colors at 75% / 90% usage
 
-- 状态栏显示：`1P 6% | API 0%`
+- 状态栏显示：`Cursor 6% | Other 0%`
 - 若 Cursor 已开启 On-demand，自动追加：`OD $0.05/$10`；无上限时状态栏仅显示已用金额（如 `OD $10`），悬停可见 `unlimited`
 - 鼠标悬停查看详情（计划、账单周期、On-demand 等）
 - 点击状态栏手动刷新
@@ -40,7 +40,7 @@ Install from a local `.vsix` (use the real Cursor binary on Linux if `~/.local/b
 
 ```bash
 npm run package
-/usr/share/cursor/bin/cursor --install-extension cursor-usage-bar-0.3.5.vsix --force
+/usr/share/cursor/bin/cursor --install-extension cursor-usage-bar-0.3.6.vsix --force
 ```
 
 在 Cursor 扩展市场搜索 `@id:NookDoze.cursor-usage-bar`，或从 Open VSX 安装。若搜不到，可用上面的命令行安装。本地 VSIX 安装时，Linux 上请使用 `/usr/share/cursor/bin/cursor`，避免 shim 未正确注册扩展。

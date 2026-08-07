@@ -1,8 +1,8 @@
 {
   "name": "cursor-usage-bar",
   "displayName": "Cursor Usage Bar",
-  "description": "Show Cursor First-party / API usage and on-demand spend in the status bar with auto-refresh",
-  "version": "0.3.5",
+  "description": "Show Cursor Models / Other Models usage and on-demand spend in the status bar with auto-refresh",
+  "version": "0.3.6",
   "publisher": "NookDoze",
   "license": "GPL-3.0",
   "repository": {
@@ -21,8 +21,8 @@
     "cursor",
     "usage",
     "billing",
-    "first-party",
-    "api",
+    "cursor-models",
+    "other-models",
     "status bar",
     "spending",
     "quota",

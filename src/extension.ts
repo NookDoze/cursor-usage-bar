@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { fetchUsage } from './api';
-import { getAccessToken } from './auth';
+import { AuthTokenError, getAccessToken } from './auth';
 
 let statusBar: vscode.StatusBarItem | undefined;
 let timer: ReturnType<typeof setInterval> | undefined;
@@ -81,7 +81,16 @@ async function refresh(): Promise<void> {
   statusBar.tooltip = 'Refreshing usage...';
 
   try {
-    const token = getAccessToken(getStateDbPath());
+    let token: string | null;
+    try {
+      token = getAccessToken(getStateDbPath());
+    } catch (err) {
+      const message = err instanceof AuthTokenError ? err.message : 'Could not read access token';
+      statusBar.text = '$(warning) Cursor token';
+      statusBar.tooltip = message;
+      statusBar.backgroundColor = new vscode.ThemeColor('statusBarItem.warningBackground');
+      return;
+    }
     if (!token) {
       statusBar.text = '$(warning) Cursor not signed in';
       statusBar.tooltip = 'No accessToken found. Sign in to Cursor first.';

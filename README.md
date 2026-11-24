@@ -40,7 +40,7 @@ Install from a local `.vsix` (use the real Cursor binary on Linux if `~/.local/b
 
 ```bash
 npm run package
-/usr/share/cursor/bin/cursor --install-extension cursor-usage-bar-0.3.6.vsix --force
+/usr/share/cursor/bin/cursor --install-extension cursor-usage-bar-0.3.7.vsix --force
 ```
 
 在 Cursor 扩展市场搜索 `@id:NookDoze.cursor-usage-bar`，或从 Open VSX 安装。若搜不到，可用上面的命令行安装。本地 VSIX 安装时，Linux 上请使用 `/usr/share/cursor/bin/cursor`，避免 shim 未正确注册扩展。
@@ -69,10 +69,12 @@ On-demand 显示需在 [Cursor Dashboard → Spending](https://cursor.com/dashbo
 ## Privacy & Security / 隐私与安全
 
 - Reads `accessToken` from the local Cursor database (`state.vscdb`); **does not store** the token
+- Decrypts Cursor 3.27+ `cursor-safe-storage:v1:` tokens via the platform keychain (Windows DPAPI, macOS Keychain, Linux Secret Service)
 - Sends HTTPS requests to `api2.cursor.sh` (usage percentages) and `cursor.com` (on-demand summary fallback)
 - No third-party servers, no telemetry
 
 - 从本地 Cursor 数据库读取 `accessToken`，**不保存** token
+- 支持 Cursor 3.27+ 的 `cursor-safe-storage:v1:` 加密 token（Windows DPAPI / macOS Keychain / Linux Secret Service 解密）
 - 向 `api2.cursor.sh`（用量百分比）和 `cursor.com`（On-demand 回退接口）发起 HTTPS 请求
 - **无**第三方服务器、无遥测
 
@@ -81,6 +83,14 @@ On-demand 显示需在 [Cursor Dashboard → Spending](https://cursor.com/dashbo
 This extension uses unofficial Cursor APIs that may change between Cursor versions. Not affiliated with Cursor or Anysphere.
 
 本扩展使用 Cursor 非公开 API，接口可能随 Cursor 版本变化。与 Cursor / Anysphere 无官方关联。
+
+## Platform notes / 平台说明
+
+- **Linux**: GNOME Keyring (or compatible Secret Service) must be unlocked. Prefer `libsecret-tools` (`secret-tool`) or `python3-secretstorage` for encrypted tokens.
+- **Windows**: No `sqlite3` CLI needed; uses built-in DB reader and PowerShell DPAPI for decryption.
+
+- **Linux**：需已解锁密钥环（GNOME Keyring 等）。加密 token 建议安装 `libsecret-tools` 或 `python3-secretstorage`。
+- **Windows**：无需系统 `sqlite3`，内置数据库读取器，并用 PowerShell DPAPI 解密。
 
 ## Development / 开发
 

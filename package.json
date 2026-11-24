@@ -2,7 +2,7 @@
   "name": "cursor-usage-bar",
   "displayName": "Cursor Usage Bar",
   "description": "Show Cursor Models / Other Models usage and on-demand spend in the status bar with auto-refresh",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "publisher": "NookDoze",
   "license": "GPL-3.0",
   "repository": {
